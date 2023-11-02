@@ -62,6 +62,9 @@ app.use(notfoundHandler)
 app.use(errorHandler)
 
 
-app.listen(app.config.port,app.config.host,()=>{
+app.listen(process.env.port,()=>{
     console.log(`server running on http://${app.config.host}:${app.config.port}`)
 })
+// app.listen(app.config.port,app.config.host,()=>{
+//     console.log(`server running on http://${app.config.host}:${app.config.port}`)
+// })
