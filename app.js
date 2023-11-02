@@ -20,8 +20,8 @@ connectMongo('mongodb://127.0.0.1:27017/accounts')
 
 // app configaration
 app.config = {
-    port:8080,
-    host:'192.168.0.1'
+    port: process.env.port || 8080,
+    host: process.env.host ||'192.168.0.1'
 }
 
 // request parser 
