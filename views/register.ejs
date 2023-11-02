@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title><%=title%></title>
+</head>
+
+<body class="flex flex-col h-screen justify-between">
+    <%- include('partials/header.ejs') %>
+    <section class="registerPage py-10">
+        <div class="container m-auto">
+            <div class="loginWrapper flex shadow-[0px_0px_10px_5px] shadow-cyan-600/50 w-[80%] m-auto">
+                <div class="w-[50%] flex justify-center items-center">
+                    <img class="w-[70%]" src="./images/slider.png" alt="">
+                </div>
+                <div class="loginForm">
+                    <h1 class="">register</h1>
+                    <form action="/register" method="post" enctype="multipart/form-data" name="registerForm"
+                        id="registerForm">
+                        <div>
+                            <label for="firstname">First Name: </label>
+                            <input name="firstname" type="text">
+                            <p class="hidden error firstname-error"></p>
+                        </div>
+                        <div>
+                            <label for="lastname">Last Name: </label>
+                            <input name="lastname" type="text">
+                            <p class="hidden error lastname-error"></p>
+                        </div>
+                        <div>
+                            <label for="phone">Phone Number: </label>
+                            <input name="phone" type="text">
+                            <p class="hidden error phone-error"></p>
+                        </div>
+                        <div>
+                            <label for="email">Email: </label>
+                            <input name="email" type="text">
+                            <p class="hidden error email-error"></p>
+                        </div>
+                        <div>
+                            <label for="password">Password: </label>
+                            <input name="password" type="password">
+                            <p class="hidden error password-error"></p>
+                        </div>
+                        <input class="my-2" type="file" name="profile"><br>
+                        <input type="radio" id="admin" name="role" value="admin"><label for="admin"> Admin</label><br>
+                        <input type="radio" checked id="user" name="role" value="user"><label for="user">
+                            User</label><br>
+                        <p class="hidden error role-error"></p>
+                        <label for=""><input class="mt-2" type="checkbox" checked required> terms and contidtion</label>
+                        <button class="bg-cyan-600 w-full mt-5 p-2" type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('partials/footer.ejs') %>
+    <script>
+        const form = document.querySelector('#registerForm')
+        form.onsubmit = async (e) => {
+            e.preventDefault()
+            const allerrorelement = document.querySelectorAll('#registerForm p')
+            allerrorelement.forEach((a) => {
+                a.style.display = 'none'
+            })
+            const formData = new FormData(form)
+            let responce = await fetch('/register', {
+                method: 'POST',
+                body: formData
+            })
+            let results = await responce.json()
+            if (results.errors) {
+                Object.keys(results.errors).forEach((fieldname) => {
+                    form[fieldname].classList.add('error')
+                    const errorplaceholder = document.querySelector(`.${fieldname}-error`)
+                    errorplaceholder.style.display = "block"
+                    errorplaceholder.style.display = "block"
+                    errorplaceholder.innerText = results.errors[fieldname].msg
+                    console.log(results.errors[fieldname].msg);
+                })
+            } else {
+                    allerrorelement.forEach((a) => {
+                    a.style.display = 'none'
+                })
+                setTimeout(() => {
+                    window.location.replace('/login')
+                }, 500);
+            }
+        }
+    </script>
+</body>
+
+</html>

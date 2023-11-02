@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title><%=title%></title>
+</head>
+<body class="flex flex-col h-screen justify-between">
+    <%- include('partials/header.ejs') %>
+    <h1 class="errmessages text-center font-semibold text-[30px]"></h1>
+    <section class="userTable">
+        <div class="container m-auto">
+            <div class="userTabileWrapper">
+                <h1 class="capitalize text-center m-10 font-semibold text-[40px] text-white">manage user</h1>
+                <table class="text-white">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Manage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(e => {%>
+                            <tr id="<%=e._id%>">
+                                <td class="justify-center items-center flex flex-row"><img class="rounded-full w-10 h-10 mr-2" src="./uploads/avatars/<%=e.avatar%>" alt=""> <%= e.firstname %> <%= e.lastname %> </td>
+                                <td><%= e.email %></td>
+                                <td><button onclick="deleteUser('<%=e._id%>')">Ⓧ</button></td>
+                            </tr>
+                        <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <%- include('partials/footer.ejs') %>
+    <script>
+        async function deleteUser(userid) {
+            const responce = await fetch(`/users/${userid}`,{
+                method: 'delete'
+            })
+            const result =await responce.json()
+            if(!result.errors){
+                document.getElementById(userid).remove()
+                document.querySelector('.errmessages').innerHTML = result.message
+                setTimeout(() => {
+                document.querySelector('.errmessages').innerHTML = ''
+                }, 1500);
+            }else{
+                document.querySelector('.errmessages').innerHTML = result.errors.msg
+                setTimeout(() => {
+                document.querySelector('.errmessages').innerHTML = ''
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>

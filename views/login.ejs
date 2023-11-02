@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title><%=title%></title>
+</head>
+<body class="flex flex-col h-screen justify-between">
+    <%- include('partials/header.ejs') %>
+    <section class="loginPage py-10">
+        <div class="container m-auto">
+            <div class="loginWrapper flex shadow-[0px_0px_10px_5px] shadow-cyan-600/50 w-[80%] m-auto">
+                <div class="w-[50%] flex justify-center items-center">
+                    <img class="w-[70%]" src="./images/slider.png" alt="">
+                </div>
+                <div class="loginForm">
+                    <h1 class="capitalize">login</h1>
+                    <form action="/login" method="post" name="loginForm" id="loginForm">
+                        <div>
+                            <label for="username">Email or phone:</label>
+                            <input name="username" type="text" value="<%=data.username%>">
+                            <%if (errors.username) {%>
+                                <p class="error username-error"><%= errors.username.msg %></p>
+                            <%}%>
+                        </div>
+                        <div>
+                            <label for="password">Password: </label>
+                            <input name="password" type="password">
+                            <%if (errors.password) {%>
+                                <p class="error password-error"><%= errors.password.msg %></p>
+                            <%}%>
+                        </div>
+                        <%if (errors.common) {%>
+                            <p class="error username-error"><%=errors.common.msg%></p>
+                        <%}%>
+                        <p class="hidden error role-error"></p>
+                        <label for=""><input class="mt-2" type="checkbox" checked required> terms and contidtion</label>
+                        <button class="bg-cyan-600 w-full mt-5 p-2" type="submit">login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('partials/footer.ejs') %>
+    <script>
+        
+    </script>
+</body>
+</html>

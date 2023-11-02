@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities{
+    html{ 
+        @apply h-screen
+    }
+
+    body{
+        @apply flex flex-col h-screen justify-between
+    }
+
+    .headerWrapper { 
+        @apply flex items-center justify-between text-lg font-bold
+    }
+
+    .nav ul li a {
+        @apply p-5 flex font-semibold capitalize hover:bg-cyan-600 transition-all duration-300
+    } 
+
+    .loginWrapper{
+        @apply rounded overflow-hidden
+    }
+
+    .loginForm{
+        @apply bg-blue-950 w-[50%] text-white p-5 text-sm font-medium
+    }
+
+    .loginForm h1 {
+        @apply border-b border-white pb-2
+        mb-5
+    }
+
+    .loginForm > form > div > input{
+        @apply bg-transparent border border-cyan-600 w-full p-2 focus:outline-none z-0
+    }
+    .ierror {
+        @apply text-red-600 
+    }
+    .Merror {
+        @apply  block
+    }
+    
+    footer{
+        @apply items-center flex p-5
+    }
+
+    .footerWrapper{
+        @apply text-white flex justify-between 
+    }
+    
+    .error label,p{
+        @apply text-red-600 !border-red-600
+    }
+    .ierror {
+        @apply border !border-red-600
+    }
+
+    /* user table */
+    .userTable{
+        @apply p-5 m-5
+    }
+    .userTabileWrapper{
+        @apply border border-cyan-600 min-h-screen p-5 bg-blue-950 rounded-md
+    }
+    table{
+        @apply w-full
+    }
+    thead{
+        @apply bg-cyan-600 
+    }
+    tr{
+        @apply border-b-[2px] border-cyan-600
+    }
+    tbody>tr>td{
+        @apply text-center py-2
+    }
+    .chatUsers li{
+        @apply bg-black/25 p-2 pl-3
+    }
+    .chatUsers {
+        @apply overflow-auto
+    }
+    .usersProfiles{
+        @apply h-full
+    }
+    .UsersProfile{
+        @apply flex border-b
+    }
+    .UsersProfile img{
+        @apply rounded-full w-10 h-10 cursor-pointer
+    }
+    .UsersProfile div{
+        @apply ml-2 cursor-pointer
+    }
+    .UsersProfile div h1{
+        @apply text-gray-100 cursor-pointer
+    }
+    .UsersProfile div p {
+        @apply text-gray-400 cursor-pointer
+    }
+    .userChatInbox.h-full.w-full.flex.flex-col.items-end.justify-end {
+        width: 100%;
+        padding: 25px;
+        height: 100vh;
+    }
+    .uMsg{
+        @apply flex justify-end text-white
+    }
+}
+@layer components{
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/main.css">
+    <title>login</title>
+</head>
+
+<body>
+    <header class="bg-blue-950 text-white ">
+        <div class="container m-auto">
+            <div class="headerWrapper">
+                <div class="weblogo">
+                    <h1>Billal Hossain</h1>
+                </div>
+                <div class="nav">
+                    <ul class="flex">
+                        <li><a href="/">home</a></li>
+                        <li><a href="/inbox">inbox</a></li>
+                        <li><a href="/contact">contact</a></li>
+                        <li><a class="bg-cyan-600" href="/login">login</a></li>
+                        <li><a href="register">register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="addUsermodal bg-transparent/60 absolute left-0 right-0 top-0 bottom-0 z-50 flex justify-center items-center">
+        <div class="p-5 bg-blue-900 pt-0">
+            <i class="text-white cursor-pointer text-[25px] flex justify-end">x</i>
+            <img src="" alt="">
+            <div class="flex">
+                <input type="text" class="p-[5px] bg-transparent border border-black focus:outline-none text-white">
+                <button class="bg-cyan-600 text-white border-black border rounded-r outline-1 p-2 text-sm">Add</button>
+                <div class="suggetions"></div>
+            </div>
+        </div>
+    </div>
+    <div class="inbox p-1 sm:p-20">
+        <div class="container m-auto">
+            <div class="inboxWrapper bg-blue-950 h-full w-full flex flex-row">
+                <div class="menu relative overflow-hidden h-[80vh] w-[30%] bg-blue-950">
+                    <div class="searhCon w-full bg-blue-800 h-[50px] flex justify-center items-center">
+                        <input type="text" placeholder="Search" class="bg-transparent border rounded-md border-black text-white p-1 pl-3 w-full mx-2 focus:outline-none">
+                    </div>
+                    <div class="chatUsers w-full h-full">
+                        <ul class="usersProfiles">
+                            <li class="UsersProfile">
+                                <img src="../public/uploads/avatars/billal-hossain-1698863387065.jpg" alt="">
+                                <div>
+                                    <h1 class="">user1</h1>
+                                    <p class="">ok</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="addUser text-black bg-white w-10 h-10 flex justify-center items-center rounded-full text-[25px] absolute bottom-4  left-4">+</div>
+                </div>
+                <div class="chatbox overflow-hidden h-full w-full bg-blue-900">
+                    <div class="chatboxHeader bg-blue-950 w-full h-[50px] flex items-center justify-end pr-5"><button class="text-white bg-blue-800 px-2 py-1 hover:bg-blue-700 rounded-md">delete</button>
+                    </div>
+                    <!-- <div class="h-full w-full flex justify-center items-center text-white">No chats</div> -->
+                    <div class="userChatInbox h-full w-full flex flex-col items-end justify-end">
+                        <div class="w-full InboxMessages">
+                            <div class="fMsg">hi</div>
+                            <div class="uMsg">hello</div>
+                        </div>
+                        <div class="w-full flex"><input type="text" class="w-[90%] bg-transparent p-2 border border-black rounded-sm"> <button class="ml-2 bg-gray-400 py-0 px-2 rounded-lg">Send</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+
+</html>

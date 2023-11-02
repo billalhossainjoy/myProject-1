@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title><%=title%></title>
+</head>
+
+<body>
+    <%- include('partials/header.ejs') %>
+    <div class="p-5">
+        <h1 class="text-[50px] font-bold text-center"><%=errors.message%></h1>
+        <h1><%=errors.status%></h1>
+        <h1><%=errors.stack%></h1>
+    </div>
+    <%- include('partials/footer.ejs') %>
+</body>
+
+</html>
