@@ -2,9 +2,9 @@
   "name": "app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "dev": "NODE_ENV=development nodemon index.js -e js,ejs,css,json,env",
     "tailwind": "postcss ./src/tailwind.css -o ./public/css/main.css -w"
   },
