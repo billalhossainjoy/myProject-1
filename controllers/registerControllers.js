@@ -11,11 +11,13 @@ const addUser = async(req,res)=>{
         newUser = new UserModel({
             ...req.body,
             avatar:req.files[0].filename,
+            fullname:req.body.firstname + " " + req.body.lastname,
             password:hashPassword
         })
     }else{
         newUser = new UserModel({
             ...req.body,
+            fullname:req.body.firstname + " " + req.body.lastname,
             password:hashPassword
         })
     }

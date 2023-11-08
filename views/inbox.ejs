@@ -1,21 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css">
     <title><%=title%></title>
 </head>
+
 <body class="flex flex-col h-screen justify-between">
     <%- include('partials/header.ejs') %>
-    <div class="inbox">
-        <div class="container">
-            <div class="inboxWrapper">
-                <div class="menu"></div>
-                <div class="chatbox"></div>
+    <div
+        class="addUserModal duration-100 absolute bg-transparent/60 top-0 left-0 right-0 bottom-0 z-50 justify-center items-center scale-0">
+        <div class="flex justify-center items-center h-full">
+            <div class="bg-blue-950 p-5 pt-0 relative">
+                <span class="closeModel text-white text-[25px] flex justify-end p-2 cursor-pointer">x</span>
+                <div class="flex">
+                    <input type="text"
+                        class="serarchAddUser pl-2 focus:outline-none font-semibold border-black border "><button
+                        class="bg-cyan-600 p-2 border border-black">Add</button>
+                </div>
+                <div class="suggetions">
+                    <ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+    <div class="mainInbox w-full h-[100vh] relative">
+        <div class="container m-auto h-full">
+            <div class="h-full w-full bg-red-500 flex">
+                <div class="inboxMenu bg-blue-600 w-[20%] relative">
+                    <ul class="chatUsers">
+                        <li>
+                            <img src="" alt="">
+                            <div>
+                                <h1>Username</h1>
+                                <p></p>
+                            </div>
+                        </li>
+                    </ul>
+                    <span
+                        class="openUserModal cursor-pointer bg-white flex justify-center items-center w-10 h-10 rounded-full absolute bottom-5 left-5">+</span>
+                </div>
+                <div class="inboxArea bg-cyan-300 w-[80%]"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const addUserModal = document.querySelector('.addUserModal')
+        const openModal = document.querySelector('.openUserModal')
+        const closeModal = document.querySelector('.closeModel')
+
+        const serarchAddUser = document.querySelector('.serarchAddUser')
+        const suggetionsUser = document.querySelector('.suggetions ul')
+        const suggetionsUserLI = document.querySelector('.suggetions > ul > li')
+
+        openModal.addEventListener("click", () => {
+            addUserModal.classList.add('openUsermodalClass')
+            suggetionsUser = ''
+            serarchAddUser.value = ''
+        })
+        closeModal.addEventListener("click", () => {
+            addUserModal.classList.remove('openUsermodalClass')
+            suggetionsUser = ''
+            serarchAddUser.value = ''
+        })
+
+
+        function appendSuggetions(src, user) {
+            const li = document.createElement('li')
+            const img = document.createElement('img')
+            const p = document.createElement('p')
+            img.src = "/uploads/avatars/"+src
+            p.innerHTML = user
+            li.appendChild(img)
+            li.appendChild(p)
+            suggetionsUser.appendChild(li)
+        }
+        // appendSuggetions('test', 'Billal hossain')
+
+        async function suggetionsSearch(username) {
+            const responce = await fetch(
+                `http://192.168.0.1:8080/inbox/users/${username}`, {
+                    method: 'get'
+                })
+            const result = await responce.json()
+            console.log(result);
+            result.map(element => {
+                appendSuggetions(element.avatar, element.username)
+            });
+        }
+        let clearTimeout;
+        serarchAddUser.addEventListener('keyup', (e) => {
+            const username = e.target.value
+            // suggetionsSearch(username)
+            setTimeout(() => {
+                suggetionsUser.innerHTML = ''
+                clearTimeout = suggetionsSearch(username)
+            }, 1000);
+        })
+        serarchAddUser.addEventListener('keydown', e => {
+            clearInterval(clearTimeout)
+        })
+        async function createConverSation(){
+        }
+
+
+
+    </script>
     <%- include('partials/footer.ejs') %>
 </body>
+
 </html>

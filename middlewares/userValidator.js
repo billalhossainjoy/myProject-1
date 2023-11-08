@@ -40,7 +40,7 @@ const userValidator = [
             }),
     check('password')
             .isStrongPassword()
-            .withMessage
+            .withMessage()
 ]
 
 const userValidationResults = (req,res,next)=>{

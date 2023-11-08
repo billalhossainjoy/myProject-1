@@ -8,14 +8,14 @@
     <title>login</title>
 </head>
 
-<body>
+<body class="">
     <header class="bg-blue-950 text-white ">
         <div class="container m-auto">
             <div class="headerWrapper">
                 <div class="weblogo">
-                    <h1>Billal Hossain</h1>
+                    <h1 class="text-sm sm:text-lg">Billal Hossain</h1>
                 </div>
-                <div class="nav">
+                <div class="nav text-sm sm:text-lg">
                     <ul class="flex">
                         <li><a href="/">home</a></li>
                         <li><a href="/inbox">inbox</a></li>
@@ -27,54 +27,92 @@
             </div>
         </div>
     </header>
-    
-    <div class="addUsermodal bg-transparent/60 absolute left-0 right-0 top-0 bottom-0 z-50 flex justify-center items-center">
-        <div class="p-5 bg-blue-900 pt-0">
-            <i class="text-white cursor-pointer text-[25px] flex justify-end">x</i>
-            <img src="" alt="">
-            <div class="flex">
-                <input type="text" class="p-[5px] bg-transparent border border-black focus:outline-none text-white">
-                <button class="bg-cyan-600 text-white border-black border rounded-r outline-1 p-2 text-sm">Add</button>
-                <div class="suggetions"></div>
-            </div>
-        </div>
-    </div>
-    <div class="inbox p-1 sm:p-20">
-        <div class="container m-auto">
-            <div class="inboxWrapper bg-blue-950 h-full w-full flex flex-row">
-                <div class="menu relative overflow-hidden h-[80vh] w-[30%] bg-blue-950">
-                    <div class="searhCon w-full bg-blue-800 h-[50px] flex justify-center items-center">
-                        <input type="text" placeholder="Search" class="bg-transparent border rounded-md border-black text-white p-1 pl-3 w-full mx-2 focus:outline-none">
-                    </div>
-                    <div class="chatUsers w-full h-full">
-                        <ul class="usersProfiles">
-                            <li class="UsersProfile">
-                                <img src="../public/uploads/avatars/billal-hossain-1698863387065.jpg" alt="">
-                                <div>
-                                    <h1 class="">user1</h1>
-                                    <p class="">ok</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="addUser text-black bg-white w-10 h-10 flex justify-center items-center rounded-full text-[25px] absolute bottom-4  left-4">+</div>
+    <div
+        class="addUserModal duration-100 absolute bg-transparent/60 top-0 left-0 right-0 bottom-0 z-50 justify-center items-center scale-0">
+        <div class="flex justify-center items-center h-full">
+            <div class="bg-blue-950 p-5 pt-0 relative">
+                <span class="closeModel text-white text-[25px] flex justify-end p-2 cursor-pointer">x</span>
+                <div class="flex">
+                    <input type="text"
+                        class="serarchAddUser pl-2 focus:outline-none font-semibold border-black border "><button
+                        class="bg-cyan-600 p-2 border border-black">Add</button>
                 </div>
-                <div class="chatbox overflow-hidden h-full w-full bg-blue-900">
-                    <div class="chatboxHeader bg-blue-950 w-full h-[50px] flex items-center justify-end pr-5"><button class="text-white bg-blue-800 px-2 py-1 hover:bg-blue-700 rounded-md">delete</button>
-                    </div>
-                    <!-- <div class="h-full w-full flex justify-center items-center text-white">No chats</div> -->
-                    <div class="userChatInbox h-full w-full flex flex-col items-end justify-end">
-                        <div class="w-full InboxMessages">
-                            <div class="fMsg">hi</div>
-                            <div class="uMsg">hello</div>
-                        </div>
-                        <div class="w-full flex"><input type="text" class="w-[90%] bg-transparent p-2 border border-black rounded-sm"> <button class="ml-2 bg-gray-400 py-0 px-2 rounded-lg">Send</button></div>
-                    </div>
+                <div class="suggetions">
+                    <ul>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+    <div class="mainInbox w-full h-[100vh] relative">
+        <div class="container m-auto h-full">
+            <div class="h-full w-full bg-red-500 flex">
+                <div class="inboxMenu bg-blue-600 w-[20%] relative">
+                    <ul class="chatUsers">
+                        <li>
+                            <img src="" alt="">
+                            <div>
+                                <h1>Username</h1>
+                                <p></p>
+                            </div>
+                        </li>
+                    </ul>
+                    <span
+                        class="openUserModal cursor-pointer bg-white flex justify-center items-center w-10 h-10 rounded-full absolute bottom-5 left-5">+</span>
+                </div>
+                <div class="inboxArea bg-cyan-300 w-[80%]"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const addUserModal = document.querySelector('.addUserModal')
+        const openModal = document.querySelector('.openUserModal')
+        const closeModal = document.querySelector('.closeModel')
+        openModal.addEventListener("click", () => {
+            addUserModal.classList.add('openUsermodalClass')
+        })
+        closeModal.addEventListener("click", () => {
+            addUserModal.classList.remove('openUsermodalClass')
+        })
+
+        const serarchAddUser = document.querySelector('.serarchAddUser')
+        const suggetionsUser = document.querySelector('.suggetions ul')
+        const suggetionsUserLI = document.querySelector('.suggetions > ul > li')
+
+        function appendSuggetions(src, user) {
+            const li = document.createElement('li')
+            const img = document.createElement('img')
+            const p = document.createElement('p')
+            img.src = "./uploads/avatar/"+src
+            p.innerHTML = user
+            li.appendChild(img)
+            li.appendChild(p)
+            suggetionsUser.appendChild(li)
+        }
+        // appendSuggetions('test', 'Billal hossain')
+
+        async function suggetionsSearch(username) {
+            const responce = await fetch(
+                `http://192.168.0.1:8080/inbox/users/${username}`, {
+                    method: 'get'
+                })
+            const result = await responce.json()
+            result.map(element => {
+                appendSuggetions(element.avatar, element.username)
+            });
+        }
+
+        serarchAddUser.addEventListener('keyup', (e) => {
+            const username = e.target.value
+
+            setTimeout(() => {
+                suggetionsSearch(username)
+            }, 500);
+        })
+        serarchAddUser.addEventListener('keydown', e => {
+            
+        })
     </script>
 </body>
 

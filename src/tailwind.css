@@ -108,6 +108,38 @@
     .uMsg{
         @apply flex justify-end text-white
     }
+
+
+    .chatUsers{
+        @apply h-full overflow-auto
+    }
+    .chatUsers li {
+        @apply flex items-center justify-center sm:justify-start p-2 m-0 
+    }
+    .chatUsers img{
+        @apply w-10 h-10 rounded-full bg-white flex justify-center items-center
+    }
+    .chatUsers h1{
+        @apply text-sm hidden sm:block pl-2
+    }
+    .chatUsers{
+    }
+    .openUsermodalClass { 
+        @apply scale-100
+    }
+    .suggetions{}
+    .suggetions ul{
+        @apply absolute w-full overflow-hidden max-h-60 scroll-smooth
+    }
+    .suggetions ul li{
+        @apply bg-white flex w-60 border border-black p-2 hover:bg-gray-200 cursor-pointer
+    }
+    .suggetions ul li img{
+        @apply w-7 h-7 rounded-full 
+    }
+    .suggetions ul li p{
+        @apply text-black font-semibold pl-2 cursor-pointer
+    }
 }
 @layer components{
 }
