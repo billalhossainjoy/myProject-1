@@ -45,18 +45,6 @@ app.use(contactRouter)
 app.use(usersRouter)
 app.use(inboxRouter)
 
-
-
-app.get('/test',async(req,res)=>{
-    res.cookie("name","test")
-    res.locals.html = true
-    res.render('test')
-})
-app.delete('/test',async(req,res)=>{
-    res.clearCookie("name")
-    res.json({name:"billal"})
-})
-
 // error handling
 app.use(notfoundHandler)
 app.use(errorHandler)
