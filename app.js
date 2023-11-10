@@ -1,3 +1,4 @@
+require('dotenv').config()
 const bodyParser = require('body-parser')
 const path = require('path')
 const cookieParser = require('cookie-parser')
@@ -10,8 +11,6 @@ const contactRouter = require('./routes/contactRouter')
 const registerRouter = require('./routes/registerRouter')
 const usersRouter = require('./routes/usersRoute')
 const inboxRouter = require('./routes/inboxRouter')
-const uploader = require('./utilities/singleFileUploads')
-
 
 const app = express()
 
