@@ -13,6 +13,7 @@ const login = async(req,res)=>{
             const isValidPass = await bcrypt.compare(req.body.password,user.password)
             if(isValidPass){
                 const userObject = {
+                    userId:user._id,
                     username:user.firstname+" "+user.lastname,
                     email:user.email,
                     phone:user.phone,

@@ -9,7 +9,9 @@
 </head>
 
 <body class="flex flex-col h-screen justify-between">
-    <%- include('partials/header.ejs') %>
+    <header>
+
+    </header>
     <div
         class="addUserModal duration-100 absolute bg-transparent/60 top-0 left-0 right-0 bottom-0 z-50 justify-center items-center scale-0">
         <div class="flex justify-center items-center h-full">
@@ -17,8 +19,7 @@
                 <span class="closeModel text-white text-[25px] flex justify-end p-2 cursor-pointer">x</span>
                 <div class="flex">
                     <input type="text"
-                        class="serarchAddUser pl-2 focus:outline-none font-semibold border-black border "><button
-                        class="bg-cyan-600 p-2 border border-black">Add</button>
+                        class="serarchAddUser pl-2 focus:outline-none font-semibold border-black border ">
                 </div>
                 <div class="suggetions">
                     <ul>
@@ -27,18 +28,24 @@
             </div>
         </div>
     </div>
+
     <div class="mainInbox w-full h-[100vh] relative">
         <div class="container m-auto h-full">
             <div class="h-full w-full bg-red-500 flex">
                 <div class="inboxMenu bg-blue-600 w-[20%] relative">
+                    <div class="p-2 flex justify-end border-b-2">
+                        <a href="/" class="hover:bg-white/50 text-[15px] m-0 p-0 flex bg-white/20 rounded-full w-7 h-7 justify-center items-center text-white cursor-pointer">x</a>
+                    </div>
                     <ul class="chatUsers">
-                        <li>
-                            <img src="" alt="">
-                            <div>
-                                <h1>Username</h1>
-                                <p></p>
-                            </div>
-                        </li>
+                        <% ConversationUsers.forEach(user => { %>
+                            <li class="cursor-pointer hover:bg-blue-900 duration-200 border-b-2">
+                                <img src="./uploads/avatars/<%=user.avatar %>" alt="">
+                                <div>
+                                    <h1 class="text-white"><%= user.firstname %></h1>
+                                    <p></p>
+                                </div>
+                            </li>
+                        <% }) %>
                     </ul>
                     <span
                         class="openUserModal cursor-pointer bg-white flex justify-center items-center w-10 h-10 rounded-full absolute bottom-5 left-5">+</span>
@@ -47,7 +54,6 @@
             </div>
         </div>
     </div>
-
     <script>
         const addUserModal = document.querySelector('.addUserModal')
         const openModal = document.querySelector('.openUserModal')
@@ -69,33 +75,65 @@
         })
 
 
-        function appendSuggetions(src, user) {
+        function appendSuggetions(src, user, id) {
             const li = document.createElement('li')
             const img = document.createElement('img')
             const p = document.createElement('p')
-            img.src = "/uploads/avatars/"+src
+            img.src = "/uploads/avatars/" + src
             p.innerHTML = user
             li.appendChild(img)
             li.appendChild(p)
+            li.id = id
             suggetionsUser.appendChild(li)
         }
         // appendSuggetions('test', 'Billal hossain')
+        const addConversaion = async (perticipentId)=>{
+            const request = await fetch('inbox/conversation',{
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    body: JSON.stringify({
+                        perticipentId,
+                        perticipentfullaname:"",
+                        perticipentavatar:""
+                    }),
+                })
+        }
 
         async function suggetionsSearch(username) {
             const responce = await fetch(
-                `http://192.168.0.1:8080/inbox/users/${username}`, {
-                    method: 'get'
+                '/inbox/search/suggetionsUser/', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    body: JSON.stringify({
+                        username,
+                    }),
                 })
             const result = await responce.json()
-            console.log(result);
             result.map(element => {
-                appendSuggetions(element.avatar, element.username)
+                appendSuggetions(element.avatar, element.username, element.id)
             });
+            let suggetionsUserLis = document.querySelectorAll('.suggetions > ul > li')
+            suggetionsUserLis.forEach((element)=>{
+                element.addEventListener('click',(e)=>{
+                    addConversaion(element.id)
+                    serarchAddUser.value = ''
+                    suggetionsUser.innerHTML = ''
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 200);
+                })
+            })
         }
+
         let clearTimeout;
         serarchAddUser.addEventListener('keyup', (e) => {
             const username = e.target.value
-            // suggetionsSearch(username)
             setTimeout(() => {
                 suggetionsUser.innerHTML = ''
                 clearTimeout = suggetionsSearch(username)
@@ -104,13 +142,7 @@
         serarchAddUser.addEventListener('keydown', e => {
             clearInterval(clearTimeout)
         })
-        async function createConverSation(){
-        }
-
-
-
     </script>
-    <%- include('partials/footer.ejs') %>
 </body>
 
 </html>

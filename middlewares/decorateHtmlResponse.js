@@ -5,6 +5,7 @@ const decoratehtmlResponse = (value)=>{
         res.locals.loggedInUser = {}
         res.locals.errors = {}
         res.locals.data = {}
+        res.locals.ConversationUsers = {}
         next()
     }
 }

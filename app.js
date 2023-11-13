@@ -11,6 +11,8 @@ const contactRouter = require('./routes/contactRouter')
 const registerRouter = require('./routes/registerRouter')
 const usersRouter = require('./routes/usersRoute')
 const inboxRouter = require('./routes/inboxRouter')
+const conversationModel = require('./models/conversationModels')
+const UserModel = require('./models/UserModel')
 
 const app = express()
 

@@ -31,7 +31,11 @@ const UserSchema = new mongoose.Schema({
         trim: true,
     },
     avatar:String,
-    role: String
+    role: String,
+    conversations: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Conversation'
+    }
 })
 
 const UserModel = mongoose.model('User',UserSchema)

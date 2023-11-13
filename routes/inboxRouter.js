@@ -1,12 +1,17 @@
 const express = require('express')
 const decoratehtmlResponse = require('../middlewares/decorateHtmlResponse')
-const { getInbox } = require('../controllers/inboxController')
+const { getInbox, addConversation } = require('../controllers/inboxController')
 const {checkLogin} = require('../middlewares/checkLogin')
-const { serarchUsers, serarchUsers2 } = require('../controllers/searchforaddUser')
+const { serarchUsers } = require('../controllers/searchforaddUser')
 const router = express.Router()
 
 router.route('/inbox').get(decoratehtmlResponse('inbox'),checkLogin,getInbox).post()
-router.route('/inbox/users/:username').get(serarchUsers)
-router.route('/inbox/search').post(serarchUsers2)
+// search user
+router.route('/inbox/search/suggetionsUser').post(serarchUsers)
+
+// add users
+router.route('/inbox/conversation').post(checkLogin,addConversation)
+
+
 
 module.exports = router

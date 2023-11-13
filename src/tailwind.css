@@ -141,5 +141,6 @@
         @apply text-black font-semibold pl-2 cursor-pointer
     }
 }
+
 @layer components{
 }
