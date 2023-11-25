@@ -5,10 +5,10 @@ const converstionsSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
-    participantId:  [{
+    participantId:  {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    }],
+    },
     last_updated: {
         type: Date,
         default: Date.now

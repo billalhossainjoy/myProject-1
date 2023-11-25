@@ -111,7 +111,7 @@
 
 
     .chatUsers{
-        @apply h-full overflow-auto
+        @apply overflow-auto
     }
     .chatUsers li {
         @apply flex items-center justify-center sm:justify-start p-2 m-0 
@@ -122,12 +122,11 @@
     .chatUsers h1{
         @apply text-sm hidden sm:block pl-2
     }
-    .chatUsers{
-    }
     .openUsermodalClass { 
         @apply scale-100
     }
     .suggetions{}
+    
     .suggetions ul{
         @apply absolute w-full overflow-hidden max-h-60 scroll-smooth
     }
@@ -140,6 +139,23 @@
     .suggetions ul li p{
         @apply text-black font-semibold pl-2 cursor-pointer
     }
+
+    .chatAreaUsers {
+        @apply w-full
+    }
+    .chatAreaUsers > div {
+        @apply flex 
+    }
+    .chatAreaUsers p{
+        @apply text-black text-sm
+    }
+    .chatAreaUsers h1{
+        @apply bg-white text-lg p-2 rounded-lg
+    }
+    .senderUser{
+        @apply justify-end
+    }
+    
 }
 
 @layer components{

@@ -8,10 +8,7 @@
     <title><%=title%></title>
 </head>
 
-<body class="flex flex-col h-screen justify-between">
-    <header>
-
-    </header>
+<body class="flex flex-col h-screen justify-between bg-gradient-to-r from-blue-500 via-pink-500 to-cyan-500">
     <div
         class="addUserModal duration-100 absolute bg-transparent/60 top-0 left-0 right-0 bottom-0 z-50 justify-center items-center scale-0">
         <div class="flex justify-center items-center h-full">
@@ -29,28 +26,43 @@
         </div>
     </div>
 
-    <div class="mainInbox w-full h-[100vh] relative">
-        <div class="container m-auto h-full">
-            <div class="h-full w-full bg-red-500 flex">
+    <div class="mainInbox m-auto h-[80vh] relative w-[70%] border-black border">
+        <div class="h-full">
+            <div class="w-full bg-red-500 flex h-full">
                 <div class="inboxMenu bg-blue-600 w-[20%] relative">
                     <div class="p-2 flex justify-end border-b-2">
-                        <a href="/" class="hover:bg-white/50 text-[15px] m-0 p-0 flex bg-white/20 rounded-full w-7 h-7 justify-center items-center text-white cursor-pointer">x</a>
+                        <a href="/"
+                            class="hover:bg-white/50 text-[15px] m-0 p-0 flex bg-white/20 rounded-full w-7 h-7 justify-center items-center text-white cursor-pointer">x</a>
                     </div>
                     <ul class="chatUsers">
                         <% ConversationUsers.forEach(user => { %>
-                            <li class="cursor-pointer hover:bg-blue-900 duration-200 border-b-2">
-                                <img src="./uploads/avatars/<%=user.avatar %>" alt="">
-                                <div>
-                                    <h1 class="text-white"><%= user.firstname %></h1>
-                                    <p></p>
-                                </div>
-                            </li>
+                        <li id="<%= user.participantId._id%>"
+                            onclick="getconversation('<%=user.participantId._id %>','<%=user._id%>')"
+                            class="conversationUserinbox cursor-pointer hover:bg-blue-900 duration-200 border-b-2 ">
+                            <img src="./uploads/avatars/<%=user.participantId.avatar %>" alt="">
+                            <div>
+                                <h1 class="text-white cursor-pointer"><%= user.participantId.firstname %></h1>
+                                <p></p>
+                            </div>
+                        </li>
                         <% }) %>
                     </ul>
                     <span
                         class="openUserModal cursor-pointer bg-white flex justify-center items-center w-10 h-10 rounded-full absolute bottom-5 left-5">+</span>
                 </div>
-                <div class="inboxArea bg-cyan-300 w-[80%]"></div>
+                <div class="inboxArea flex flex-col justify-between bg-cyan-300 w-full h-full">
+                    <div class="bg-cyan-500 p-2 flex justify-end border-b-2">
+                        <a href="/"
+                            class="hover:bg-white/50 text-[15px] m-0 p-0 flex bg-white/20 rounded-full w-7 h-7 justify-center items-center text-white cursor-pointer">x</a>
+                    </div>
+                    <div class="p-3 flex justify-end items-end flex-col w-full h-[93%]">
+                        <div class="chatAreaUsers overflow-y-scroll p-4">
+                            <div class="h-[50vh] w-full flex justify-center items-center ">Empty</div>
+                        </div>
+                        <input id="messageInput" style="display: none;"
+                            class="w-full m-1 p-2 bg-transparent text-black border-2 border-black" type="text">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -86,20 +98,21 @@
             li.id = id
             suggetionsUser.appendChild(li)
         }
+
         // appendSuggetions('test', 'Billal hossain')
-        const addConversaion = async (perticipentId)=>{
-            const request = await fetch('inbox/conversation',{
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'post',
-                    body: JSON.stringify({
-                        perticipentId,
-                        perticipentfullaname:"",
-                        perticipentavatar:""
-                    }),
-                })
+        const addConversaion = async (perticipentId) => {
+            const request = await fetch('inbox/conversation', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                body: JSON.stringify({
+                    perticipentId,
+                    perticipentfullaname: "",
+                    perticipentavatar: ""
+                }),
+            })
         }
 
         async function suggetionsSearch(username) {
@@ -119,8 +132,8 @@
                 appendSuggetions(element.avatar, element.username, element.id)
             });
             let suggetionsUserLis = document.querySelectorAll('.suggetions > ul > li')
-            suggetionsUserLis.forEach((element)=>{
-                element.addEventListener('click',(e)=>{
+            suggetionsUserLis.forEach((element) => {
+                element.addEventListener('click', (e) => {
                     addConversaion(element.id)
                     serarchAddUser.value = ''
                     suggetionsUser.innerHTML = ''
@@ -141,6 +154,75 @@
         })
         serarchAddUser.addEventListener('keydown', e => {
             clearInterval(clearTimeout)
+        })
+    </script>
+    <script>
+        let storeUser;
+        let conversationid;
+        let messageInput = document.querySelector("#messageInput")
+
+        const chatAreaUsers = document.querySelector(".chatAreaUsers")
+        const appendMessage = (username,msg,time,type) =>{
+            const message = document.createElement('div')
+            const wrapper = document.createElement('div')
+            const uname = document.createElement('p')
+            uname.innerHTML = username
+            const h1 = document.createElement('h1')
+            h1.innerHTML = msg
+            const Dateandtime = document.createElement('p')
+            Dateandtime.innerHTML = time
+            message.appendChild(wrapper)
+            wrapper.appendChild(uname)
+            wrapper.appendChild(h1)
+            wrapper.appendChild(Dateandtime)
+            message.classList = type
+            chatAreaUsers.appendChild(message)
+        }
+        function scrolltoBottom() {
+            chatAreaUsers.scrollTop = chatAreaUsers.scrollHeight
+        }
+
+        async function getconversation(id, cid) {
+            chatAreaUsers.innerHTML= ''
+            storeUser = id
+            conversationid = cid
+            messageInput.style.display = "block"
+            let responce2 = await fetch(`/inbox/conversation/${cid}`, {
+                method: "get"
+            })
+            let result2 = await responce2.json();
+            console.log(result2);
+            result2.forEach(element => {
+                appendMessage('test',element.text,"10:00","senderUser")
+            });
+            scrolltoBottom();
+        }
+
+
+        // appendMessage("Billal","text msg","10:00","senderUser")
+
+        const storeMsg = async (senderMessage) => {
+            await fetch("/inbox/messages", {
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                method: "post",
+                body: JSON.stringify(senderMessage)
+            })
+        }
+        messageInput.addEventListener("keyup", (e) => {
+            if (e.key === 'Enter') {
+                let senderMessage = {
+                    coonversationid: conversationid,
+                    reciverid: storeUser,
+                    sendermsg: e.target.value
+                }
+                storeMsg(senderMessage);
+                appendMessage('test',e.target.value,"10:00","senderUser")
+                scrolltoBottom();
+                messageInput.value = ""
+            }
         })
     </script>
 </body>

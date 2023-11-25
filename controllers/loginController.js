@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const UserModel = require('../models/UserModel')
 const createHttpError = require('http-errors')
+const conversationModel = require('../models/conversationModels')
 const getLogin = async(req,res)=>{
     res.render('login')
 }
@@ -24,6 +25,13 @@ const login = async(req,res)=>{
                 })
                 res.cookie('jwtToken',token,{maxAge:86400000,httpOnly:true,signed:true})
                 res.locals.loggedInUser = userObject;
+
+                // const newConversation = new conversationModel({
+                //     creatorId: userObject.userId,
+                //     participantId: '656189b3917d830830eb7057',
+                //   });
+                // const result = await newConversation.save();
+
                 res.redirect('/inbox')
             }else{
                 throw createHttpError('login failed')
